@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI專案成果分享 - 蕭民仕</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #0F3A7D;
+            --secondary: #1e5a96;
+            --accent: #2e7db4;
+            --dark: #1a1f3a;
+            --light: #f5f7fa;
+            --gray: #6b7280;
+            --success: #10b981;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', sans-serif;
+            background: var(--dark);
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        .container {
+            width: 100vw;
+            height: 100vh;
+            scroll-snap-type: y mandatory;
+            overflow-y: scroll;
+            scroll-behavior: smooth;
+        }
+
+        .slide {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            scroll-snap-align: start;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .slide-content {
+            width: 90%;
+            max-width: 1200px;
+            height: 90%;
+            padding: 60px;
+            animation: slideIn 0.8s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ===== TITLE SLIDE ===== */
+        .title-slide {
+            background: linear-gradient(135deg, var(--primary) 0%, #1e5099 50%, var(--secondary) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .title-slide::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: -200px;
+            width: 600px;
+            height: 600px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .title-slide::after {
+            content: '';
+            position: absolute;
+            bottom: -100px;
+            left: -100px;
+            width: 400px;
+            height: 400px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 50%;
+            animation: float 8s ease-in-out infinite reverse;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(20px);
+            }
+        }
+
+        .title-slide .slide-content {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+            position: relative;
+            z-index: 1;
+        }
+
+        .title-slide h1 {
+            font-size: 72px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            letter-spacing: -1px;
+            text-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .title-slide p {
+            font-size: 28px;
+            font-weight: 300;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 40px;
+        }
+
+        .highlight-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.15);
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            color: white;
+            padding: 12px 28px;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: 600;
+            backdrop-filter: blur(10px);
+        }
+
+        /* ===== CONTENT SLIDE ===== */
+        .content-slide {
+            background: var(--light);
+            border-radius: 24px;
+            box-shadow: 0 30px 80px rgba(15, 58, 125, 0.15);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .content-slide .slide-header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            padding: 40px;
+            color: white;
+        }
+
+        .content-slide h2 {
+            font-size: 42px;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .content-slide .slide-body {
+            padding: 40px;
+            flex-grow: 1;
+            overflow-y: auto;
+            background: white;
+        }
+
+        .content-slide ul {
+            list-style: none;
+        }
+
+        .content-slide li {
+            font-size: 18px;
+            line-height: 1.9;
+            margin-bottom: 24px;
+            padding-left: 35px;
+            position: relative;
+            color: #333;
+            transition: transform 0.3s ease;
+        }
+
+        .content-slide li:hover {
+            transform: translateX(8px);
+        }
+
+        .content-slide li:before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 6px;
+            width: 8px;
+            height: 8px;
+            background: var(--secondary);
+            border-radius: 50%;
+            box-shadow: 0 0 0 8px rgba(30, 90, 150, 0.1);
+        }
+
+        .content-slide strong {
+            color: var(--primary);
+        }
+
+        /* ===== PROJECT SLIDE ===== */
+        .project-slide {
+            background: var(--light);
+            border-radius: 24px;
+            box-shadow: 0 30px 80px rgba(15, 58, 125, 0.15);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .project-slide .slide-header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            padding: 40px;
+            color: white;
+            border-bottom: 3px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .project-slide h2 {
+            font-size: 38px;
+            font-weight: 700;
+            margin: 0;
+            margin-bottom: 10px;
+        }
+
+        .project-timeline {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.85);
+            font-weight: 500;
+        }
+
+        .project-content {
+            padding: 40px;
+            flex-grow: 1;
+            overflow-y: auto;
+            background: white;
+        }
+
+        .project-section {
+            margin-bottom: 32px;
+        }
+
+        .project-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .project-section h3 {
+            color: var(--primary);
+            font-size: 18px;
+            margin-bottom: 16px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .project-section p {
+            font-size: 16px;
+            line-height: 1.8;
+            color: #555;
+            margin-bottom: 10px;
+            padding-left: 20px;
+            border-left: 3px solid var(--secondary);
+        }
+
+        .benefit-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 12px;
+            font-size: 16px;
+            color: #333;
+            padding-left: 20px;
+            border-left: 3px solid var(--secondary);
+        }
+
+        .benefit-item strong {
+            color: var(--primary);
+        }
+
+        /* ===== AI SLIDE ===== */
+        .ai-slide {
+            background: var(--light);
+            border-radius: 24px;
+            box-shadow: 0 30px 80px rgba(15, 58, 125, 0.15);
+        }
+
+        .ai-slide .slide-header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            padding: 40px;
+            color: white;
+            border-bottom: 3px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .ai-slide h2 {
+            font-size: 42px;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .ai-content {
+            padding: 40px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: flex-start;
+            background: white;
+        }
+
+        .ai-point {
+            background: var(--light);
+            border-left: 4px solid var(--secondary);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+
+        .ai-point h4 {
+            color: var(--primary);
+            margin-bottom: 8px;
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .ai-point p {
+            font-size: 15px;
+            line-height: 1.6;
+            color: #555;
+        }
+
+        /* ===== METRICS ===== */
+        .metrics-section {
+            background: var(--light);
+            border-radius: 16px;
+            padding: 30px;
+            border: 1px solid rgba(30, 90, 150, 0.2);
+        }
+
+        .metrics-title {
+            color: var(--primary);
+            font-weight: 700;
+            margin-bottom: 20px;
+            font-size: 18px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .metric-card {
+            background: white;
+            border: 2px solid var(--secondary);
+            padding: 24px 16px;
+            border-radius: 12px;
+            text-align: center;
+            transition: all 0.3s ease;
+            margin-bottom: 16px;
+        }
+
+        .metric-card:hover {
+            background: rgba(30, 90, 150, 0.05);
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(30, 90, 150, 0.2);
+        }
+
+        .metric-big-value {
+            font-size: 36px;
+            font-weight: 800;
+            color: var(--secondary);
+            margin-bottom: 8px;
+        }
+
+        .metric-small-text {
+            font-size: 13px;
+            color: #666;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        /* ===== NAVIGATION ===== */
+        .slide-counter {
+            position: fixed;
+            bottom: 30px;
+            left: 40px;
+            color: white;
+            font-size: 16px;
+            opacity: 0.8;
+            font-weight: 600;
+            z-index: 1000;
+        }
+
+        .nav-info {
+            position: fixed;
+            bottom: 30px;
+            right: 40px;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 14px;
+            text-align: right;
+            z-index: 1000;
+        }
+
+        /* ===== SCROLLBAR ===== */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--secondary);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--accent);
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 1024px) {
+            .slide-content {
+                padding: 40px;
+            }
+
+            .title-slide h1 {
+                font-size: 54px;
+            }
+
+            .ai-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .slide-content {
+                padding: 20px;
+            }
+
+            .title-slide h1 {
+                font-size: 40px;
+            }
+
+            .content-slide h2,
+            .project-slide h2,
+            .ai-slide h2 {
+                font-size: 28px;
+            }
+
+            .content-slide li {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container" id="container">
+        <!-- Slide 1: Title -->
+        <div class="slide title-slide">
+            <div class="slide-content">
+                <h1>AI專案成果分享</h1>
+                <p>驅動企業數位轉型的實戰案例</p>
+                <div class="highlight-badge">
+                    6個成功案例 | 90%效率提升 | AI Agent協作開發
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 2: Background -->
+        <div class="slide">
+            <div class="slide-content content-slide">
+                <div class="slide-header">
+                    <h2>個人背景</h2>
+                </div>
+                <div class="slide-body">
+                    <ul>
+                        <li><strong>教育背景：</strong>國立臺灣大學政治學系、社會工作學系</li>
+                        <li><strong>工作經驗：</strong>5~6年流程自動化與AI應用開發</li>
+                        <li><strong>職涯演進：</strong>數據分析 → 系統開發 → DevOps → RPA → AI Automation Engineer</li>
+                        <li><strong>核心強項：</strong>業務痛點識別 + 技術方案設計 + 系統落地 + 量化成果驗證</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 3: AI Development Tools -->
+        <div class="slide">
+            <div class="slide-content content-slide">
+                <div class="slide-header">
+                    <h2>AI Agent協作開發工具</h2>
+                </div>
+                <div class="slide-body">
+                    <ul>
+                        <li><strong>Claude：</strong>核心開發助手 — 代碼生成、架構設計、複雜邏輯推導</li>
+                        <li><strong>Codex：</strong>輔助生成代碼</li>
+                        <li><strong>Gemini：</strong>多模態理解 — 需求分析、架構圖解讀、文件化</li>
+                        <li><strong>OpenCode/OpenSpec：</strong>第三方開源工具支持</li>
+                        <li><strong>工作流程：</strong>需求 → Claude分析 → Codex輔助 → Gemini優化文檔</li>
+                        <li><strong>成效：</strong>用AI Agent協作，代碼生產效率提升3-5倍，錯誤率降低40%</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: Why AI Matters -->
+        <div class="slide">
+            <div class="slide-content ai-slide">
+                <div class="slide-header">
+                    <h2>為什麼選擇AI自動化</h2>
+                </div>
+                <div class="ai-content">
+                    <div>
+                        <div class="ai-point">
+                            <h4>高ROI的轉型</h4>
+                            <p>60%的企業年度投資報酬率來自自動化。技術成本投入轉化為具體工時節省。</p>
+                        </div>
+                        <div class="ai-point">
+                            <h4>降低技術門檻</h4>
+                            <p>過去需要3-6個月開發的功能，用Low-Code/AI工具週內交付，快速驗證想法。</p>
+                        </div>
+                        <div class="ai-point">
+                            <h4>量化決策依據</h4>
+                            <p>每個專案都有明確指標：工時減少百分比、錯誤率下降、成本節省額。</p>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="metrics-section">
+                            <div class="metrics-title">核心成果指標</div>
+                            <div class="metrics-grid">
+                                <div class="metric-card">
+                                    <div class="metric-big-value">90%+</div>
+                                    <div class="metric-small-text">工時節省</div>
+                                </div>
+                                <div class="metric-card">
+                                    <div class="metric-big-value">85%</div>
+                                    <div class="metric-small-text">成本降低</div>
+                                </div>
+                                <div class="metric-card">
+                                    <div class="metric-big-value">90%+</div>
+                                    <div class="metric-small-text">錯誤率減少</div>
+                                </div>
+                                <div class="metric-card">
+                                    <div class="metric-big-value">3-4x</div>
+                                    <div class="metric-small-text">部署速度</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 5: Tech Stack -->
+        <div class="slide">
+            <div class="slide-content content-slide">
+                <div class="slide-header">
+                    <h2>技術工具組合</h2>
+                </div>
+                <div class="slide-body">
+                    <ul>
+                        <li><strong>AI與Workflow自動化：</strong>n8n、Dify、Coze、LLM Agent框架 — 流程編排與智能決策</li>
+                        <li><strong>後端與整合層：</strong>Python FastAPI、API串接、RPA技術 — 系統連接與數據流轉</li>
+                        <li><strong>Low-Code快速開發：</strong>Xano、Retool — 3週內從零到生產環境MVP</li>
+                        <li><strong>數據與決策支持：</strong>SQL、Metabase — 實時儀表板、自動報表、KPI追蹤</li>
+                        <li><strong>業務系統整合：</strong>ERP/CRM系統、SHOPLINE/Shopee/MOMO、第三方API — 端到端流程串接</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 6: Project 1 - RPA -->
+        <div class="slide">
+            <div class="slide-content project-slide">
+                <div class="slide-header">
+                    <h2>專案1：RPA架構診斷與技術自主化</h2>
+                    <div class="project-timeline">2026年1月 ~ 2026年2月 | 1個月</div>
+                </div>
+                <div class="project-content">
+                    <div class="project-section">
+                        <h3>核心挑戰</h3>
+                        <p>IT部門困境 — Power Automate RPA流程陷入維護地獄：黑盒流程難以維護，修改需要找原廠工程師，工作流執行不穩定經常超時。在無原廠文件情況下需快速自主化。</p>
+                    </div>
+                    <div class="project-section">
+                        <h3>AI Agent協作應用</h3>
+                        <p>用Claude分析既有RPA流程邏輯，設計替代方案架構。Copilot生成Chrome Extension + Python
+                            FastAPI核心代碼。Gemini協助優化流程設計與文檔化。結果：1個月內完成技術自主化POC，比傳統外包方式快10倍。</p>
+                    </div>
+                    <div class="project-section">
+                        <h3>成果指標</h3>
+                        <div class="benefit-item">完成時間：1個月內完成技術自主化POC</div>
+                        <div class="benefit-item">架構改進：黑盒RPA → 高彈性、低延遲代碼架構</div>
+                        <div class="benefit-item">工具綁定風險：大幅降低，增加系統靈活性</div>
+                        <div class="benefit-item">技術債清償：用代碼化流程替代模擬UI自動化</div>
+                    </div>
+                    <div class="project-section">
+                        <h3>技術方案</h3>
+                        <p>拆解既有RPA流程 → Chrome Extension (前端自動化) + Python FastAPI (後端處理) →
+                            完全自主化。優勢：成本低無第三方許可證、可維護、可擴展、學習曲線平緩。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 7: Project 2-Gomaji - AI驅動營運流程自動化與決策支援系統 -->
+        <div class="slide">
+            <div class="slide-content project-slide">
+                <div class="slide-header">
+                    <h2>專案2-Gomaji：AI驅動營運流程自動化與報表生成系統</h2>
+                    <div class="project-timeline">2026年3月 ~ 現在 | 進行中</div>
+                </div>
+                <div class="project-content">
+                    <div class="project-section">
+                        <h3>業務問題</h3>
+                        <ul style="margin-left: 20px;">
+                            <li><strong>症狀：</strong>PM與營運高度依賴人工處理日常任務</li>
+                            <li><strong>痛點：</strong>報表與需求處理分散、低效率、頻繁重複</li>
+                            <li><strong>成本：</strong>PM每日4小時用於重複性工作</li>
+                        </ul>
+                    </div>
+                    <div class="project-section">
+                        <h3>解決方案</h3>
+                        <ul style="margin-left: 20px;">
+                            <li>將任務轉為可自動執行流程</li>
+                            <li>AI輔助生成腳本與分析邏輯</li>
+                            <li>Metabase標準化報表輸出</li>
+                            <li>Multi-Agent 架構：Claude + Codex 分析與開發 Python 自動化腳本</li>
+                        </ul>
+                    </div>
+                    <div class="project-section">
+                        <h3>AI成果指標</h3>
+                        <div class="benefit-item">報表產出時間：4小時 → 30分鐘 (提升 87.5%)</div>
+                        <div class="benefit-item">PM日常任務：4小時 → 10分鐘 (自動化 97.5%)</div>
+                        <div class="benefit-item">決策支援速度：即時提供，可視化決策</div>
+                        <div class="benefit-item">涵蓋部門：營運、PM、市場、財務、行政 (5個部門)</div>
+                    </div>
+                    <div class="project-section">
+                        <h3>核心價值</h3>
+                        <p>將「人工作業」轉為「系統資產」 — 建立可複用的營運流程。AI角色不是替代人類，而是將人類從重複工作解放出來做決策。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 7.5: Project 2a-POC - NotebookLLM 組織級 Wiki KM 系統 -->
+        <div class="slide">
+            <div class="slide-content project-slide">
+                <div class="slide-header">
+                    <h2>POC：NotebookLLM 組織級 Wiki 知識管理系統</h2>
+                    <div class="project-timeline">2026年3月 ~ 進行中 | 概念驗證階段</div>
+                </div>
+                <div class="project-content">
+                    <div class="project-section">
+                        <h3>問題背景</h3>
+                        <ul style="margin-left: 20px;">
+                            <li><strong>現狀：</strong>知識分散在 Redmine、Google Docs、Slack 等多個平台</li>
+                            <li><strong>痛點：</strong>員工查找資訊耗時，知識難以沉澱與複用</li>
+                            <li><strong>機會：</strong>利用 AI 統一組織知識，建立智能查詢系統</li>
+                        </ul>
+                    </div>
+                    <div class="project-section">
+                        <h3>解決方案</h3>
+                        <ul style="margin-left: 20px;">
+                            <li><strong>核心技術：</strong>NotebookLLM 作為 AI 引擎</li>
+                            <li><strong>知識源：</strong>Redmine 技術文檔 + Google Docs 內部維基</li>
+                            <li><strong>集成方式：</strong>Google Docs API 自動同步 → NotebookLLM 知識庫 → AI 生成摘要</li>
+                            <li><strong>交互方式：</strong>自然語言提問 → 即時知識檢索與合成</li>
+                        </ul>
+                    </div>
+                    <div class="project-section">
+                        <h3>預期成果</h3>
+                        <ul style="margin-left: 20px;">
+                            <li>✓ 知識查詢時間：從 10-15 分鐘 → 30 秒內</li>
+                            <li>✓ 知識複用率提升：減少重複問題的回答</li>
+                            <li>✓ Onboarding 加速：新員工快速自助查詢</li>
+                            <li>✓ 組織智能資產：可複用的知識庫</li>
+                        </ul>
+                    </div>
+                    <div class="project-section">
+                        <h3>當前進度</h3>
+                        <p>🔄 正在驗證：NotebookLLM 知識庫與 Redmine/Google Docs API 的集成方案，評估技術可行性與成本效益。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 8: Project 3 - AI Chatbot -->
+        <div class="slide">
+            <div class="slide-content project-slide">
+                <div class="slide-header">
+                    <h2>專案3：AI客服系統Prototype</h2>
+                    <div class="project-timeline">2025年6月 ~ 2025年8月 | 2個月</div>
+                </div>
+                <div class="project-content">
+                    <div class="project-section">
+                        <h3>AI應用創新</h3>
+                        <p>生成式AI浪潮下的實際應用 — 用LLM模型取代部分人工客服。Dify用於低代碼LLM工作流編排、知識庫檢索、多輪對話。Coze快速構建智能Bot跨渠道部署。n8n工作流串接客服回應 →
+                            訂單系統 → CRM同步。</p>
+                    </div>
+                    <div class="project-section">
+                        <h3>AI成果指標</h3>
+                        <div class="benefit-item">客服自動回覆率：達到 70% (常見問題自動解答)</div>
+                        <div class="benefit-item">人工客服負擔：減少 60% (專注複雜問題)</div>
+                        <div class="benefit-item">客戶滿意度：實現 24小時 無人工延遲回應</div>
+                        <div class="benefit-item">成本節省：月度客服人力成本減少 30-40%</div>
+                    </div>
+                    <div class="project-section">
+                        <h3>AI技術洞見</h3>
+                        <p>LLM不是萬能的：只適合高重複性低專業性的客服問題。關鍵是知識庫設計：AI品質取決於Prompt + 知識庫 + 上下文管理。混合模式最優：AI自動解答 + 人工複審 + 持續迭代。
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 9: Project 3 - AI Prediction -->
+        <div class="slide">
+            <div class="slide-content project-slide">
+                <div class="slide-header">
+                    <h2>專案3：銷售預測與會計自動化</h2>
+                    <div class="project-timeline">2025年4月 ~ 2025年7月 | 3個月</div>
+                </div>
+                <div class="project-content">
+                    <div class="project-section">
+                        <h3>AI/ML應用場景</h3>
+                        <p>結合預測模型與AI OCR解決財務部門的數據密集型工作：行銷部門每月手工預測銷售耗時且誤差大；會計每月需輸入百份傳票易出錯工作量大。</p>
+                    </div>
+                    <div class="project-section">
+                        <h3>AI成果指標</h3>
+                        <div class="benefit-item">銷售預測精度：月度預測誤差率降低 15% → 更準確的資源配置</div>
+                        <div class="benefit-item">會計傳票自動化：自動化率達 50%+</div>
+                        <div class="benefit-item">人工輸入錯誤：顯著減少，提升財務準確性</div>
+                        <div class="benefit-item">月度節省工時：80小時 (會計+行銷部門)</div>
+                    </div>
+                    <div class="project-section">
+                        <h3>技術方案</h3>
+                        <p>預測層：ML時序預測模型基於歷史銷售資料、季節性因子。自動化層：AI OCR識別傳票 → 自動提取數字/簽章/日期 → 會計系統匯入。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 10: Project 4 - Subscription Management -->
+        <div class="slide">
+            <div class="slide-content project-slide">
+                <div class="slide-header">
+                    <h2>專案4：全通路訂單管理系統</h2>
+                    <div class="project-timeline">2021年10月 ~ 2023年6月 | 18個月</div>
+                </div>
+                <div class="project-content">
+                    <div class="project-section">
+                        <h3>業務挑戰</h3>
+                        <p>公司使用不符需求的外部ERP，處理SHOPLINE、Shopee、MOMO三平台訂單時：人工校對、匹配物流成本高；旺季單量600+/日導致系統癱瘓；跨部門資訊斷層，成本難以控制。</p>
+                    </div>
+                    <div class="project-section">
+                        <h3>成果指標</h3>
+                        <div class="benefit-item">人工處理時間：從半天 → 1-1.5小時/日(90%+ 降低)</div>
+                        <div class="benefit-item">訂單錯誤率：下降 90%+</div>
+                        <div class="benefit-item">日均處理能力：從 200+ 提升至 600+(旺季3倍產能)</div>
+                        <div class="benefit-item">系統價值：每年節省 100萬+ 人工成本 + 倉庫協調費用</div>
+                    </div>
+                    <div class="project-section">
+                        <h3>技術方案</h3>
+                        <p>後端：Xano NoCode平台 — 快速建模與業務邏輯編排。前端：Retool —
+                            儀表板、訂單檢視、異常管理。整合層：API串接SHOPLINE/Shopee/MOMO/黑貓。工作流：自動匹配物流、生成配送單、庫存同步。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 11: Project 5 - BI Dashboard -->
+        <div class="slide">
+            <div class="slide-content project-slide">
+                <div class="slide-header">
+                    <h2>專案5：NPS自動化與BI儀表板</h2>
+                    <div class="project-timeline">2022年7月 ~ 2022年10月 | 3個月</div>
+                </div>
+                <div class="project-content">
+                    <div class="project-section">
+                        <h3>業務挑戰</h3>
+                        <p>電商運營缺乏實時客戶滿意度追蹤：NPS調查手動發送、回收、統計需40小時/月；多平台銷售數據分散無法實時掌握；缺乏關鍵KPI儀表板無法快速應對市場變化。</p>
+                    </div>
+                    <div class="project-section">
+                        <h3>成果指標</h3>
+                        <div class="benefit-item">自動化程度：達成 100% 數據自動匯入與即時監控</div>
+                        <div class="benefit-item">工作時數節省：每月減少 40+ 小時人工作業</div>
+                        <div class="benefit-item">決策效率：實時儀表板讓主管秒級掌握NPS/銷售狀況</div>
+                        <div class="benefit-item">ROI：年度節省超過 50萬+ 人工成本</div>
+                    </div>
+                    <div class="project-section">
+                        <h3>技術方案</h3>
+                        <p>調查層：SurveyCake API + LINE Bot自動發送。數據層：SQL資料庫架構，電商API串接。可視化：Metabase即時儀表板 — NPS區間分析、銷售趨勢、客戶分群。
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 12: Project 6 - CRM -->
+        <div class="slide">
+            <div class="slide-content project-slide">
+                <div class="slide-header">
+                    <h2>專案6：SHOPLINE × LINE CRM商品化</h2>
+                    <div class="project-timeline">2024年7月 ~ 2025年3月 | 8個月</div>
+                </div>
+                <div class="project-content">
+                    <div class="project-section">
+                        <h3>業務挑戰</h3>
+                        <p>與CRM廠商解約後需自主開發並探索SaaS化：行銷團隊無CRM工具客戶互動依賴試算表；每次行銷活動設定需2-3小時手動操作；無法跨平台統一管理客戶數據。</p>
+                    </div>
+                    <div class="project-section">
+                        <h3>成果指標</h3>
+                        <div class="benefit-item">客戶導入：上線半年內帶入 3家客戶，產生穩定訂閱收入</div>
+                        <div class="benefit-item">內部效率：行銷團隊工作時間縮短 70% (2-3小時 → 40分鐘)</div>
+                        <div class="benefit-item">工具依賴：大幅降低第三方SaaS購買成本</div>
+                        <div class="benefit-item">產品化：上架至SHOPLINE擴充功能商店，開創新收入來源</div>
+                    </div>
+                    <div class="project-section">
+                        <h3>技術方案</h3>
+                        <p>功能：客戶管理、訊息推播、圖文選單、自動化行銷活動。技術棧：Xano後端 + Retool前端管理介面 + SHOPLINE API + LINE Bot。商業化：按訂閱計價 →
+                            3家B2B客戶年合約收入。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 13: Closing -->
+        <div class="slide title-slide">
+            <div class="slide-content">
+                <h1>期待共同探索</h1>
+                <p>AI如何驅動三立的數位轉型與創新</p>
+                <div class="highlight-badge" style="margin-top: 40px;">
+                    讓我們一起打造媒體產業的AI未來
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="slide-counter">
+        <span id="current">1</span> / <span id="total">14</span>
+    </div>
+
+    <div class="nav-info">
+        ↑ ↓ 或 ← →<br>鍵盤瀏覽
+    </div>
+
+    <script>
+        const container = document.getElementById('container');
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        let currentSlide = 1;
+
+        function updateCounter() {
+            document.getElementById('current').textContent = currentSlide;
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowDown' || e.key === 'ArrowRight' || e.key === ' ') {
+                e.preventDefault();
+                if (currentSlide < totalSlides) {
+                    currentSlide++;
+                    scrollToSlide();
+                }
+            } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
+                e.preventDefault();
+                if (currentSlide > 1) {
+                    currentSlide--;
+                    scrollToSlide();
+                }
+            }
+        });
+
+        function scrollToSlide() {
+            const slide = slides[currentSlide - 1];
+            slide.scrollIntoView({ behavior: 'smooth' });
+            updateCounter();
+        }
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    currentSlide = Array.from(slides).indexOf(entry.target) + 1;
+                    updateCounter();
+                }
+            });
+        }, { threshold: 0.5 });
+
+        slides.forEach(slide => observer.observe(slide));
+
+        document.getElementById('total').textContent = totalSlides;
+    </script>
+</body>
+
+</html>
